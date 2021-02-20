@@ -30,7 +30,7 @@ const (
 	// LinkerdVizExtensionDataPlaneCheck adds checks related to dataplane for the linkerd-viz extension
 	LinkerdVizExtensionDataPlaneCheck healthcheck.CategoryID = "linkerd-viz-data-plane"
 
-	tapTLSSecretName    = "linkerd-tap-k8s-tls"
+	tapTLSSecretName    = "tap-k8s-tls"
 	tapOldTLSSecretName = "linkerd-tap-tls"
 
 	// linkerdTapAPIServiceName is the name of the tap api service
@@ -172,7 +172,7 @@ func (hc *HealthChecker) VizCategory() healthcheck.Category {
 			Warning().
 			WithCheck(func(ctx context.Context) error {
 				if hc.externalPrometheusURL != "" {
-					return &healthcheck.SkipError{Reason: "linkerd-prometheus is disabled"}
+					return &healthcheck.SkipError{Reason: "prometheus is disabled"}
 				}
 
 				// Check for ClusterRoles
@@ -188,7 +188,7 @@ func (hc *HealthChecker) VizCategory() healthcheck.Category {
 				}
 
 				// Check for ConfigMap
-				err = healthcheck.CheckConfigMaps(ctx, hc.KubeAPIClient(), hc.vizNamespace, true, []string{"linkerd-prometheus-config"}, "")
+				err = healthcheck.CheckConfigMaps(ctx, hc.KubeAPIClient(), hc.vizNamespace, true, []string{"prometheus-config"}, "")
 				if err != nil {
 					return err
 				}
@@ -199,7 +199,7 @@ func (hc *HealthChecker) VizCategory() healthcheck.Category {
 					return err
 				}
 
-				err = healthcheck.CheckForPods(pods, []string{"linkerd-prometheus"})
+				err = healthcheck.CheckForPods(pods, []string{"prometheus"})
 				if err != nil {
 					return err
 				}

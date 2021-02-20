@@ -53,7 +53,7 @@ func TestCliStatForLinkerdNamespace(t *testing.T) {
 		prometheusDeployment = "prometheus"
 	} else {
 		prometheusNamespace = TestHelper.GetVizNamespace()
-		prometheusDeployment = "linkerd-prometheus"
+		prometheusDeployment = "prometheus"
 	}
 
 	pods, err = TestHelper.GetPodNamesForDeployment(ctx, prometheusNamespace, prometheusDeployment)
@@ -132,9 +132,9 @@ func TestCliStatForLinkerdNamespace(t *testing.T) {
 				args: []string{"viz", "stat", "deploy", "-n", TestHelper.GetVizNamespace()},
 				expectedRows: map[string]string{
 					"linkerd-metrics-api": "1/1",
-					"linkerd-grafana":     "1/1",
-					"linkerd-prometheus":  "1/1",
-					"linkerd-tap":         "1/1",
+					"grafana":             "1/1",
+					"prometheus":          "1/1",
+					"tap":                 "1/1",
 					"linkerd-web":         "1/1",
 					"tap-injector":        "1/1",
 				},
@@ -146,9 +146,9 @@ func TestCliStatForLinkerdNamespace(t *testing.T) {
 				},
 			},
 			{
-				args: []string{"viz", "stat", "svc", "linkerd-prometheus", "-n", TestHelper.GetVizNamespace(), "--from", "deploy/linkerd-metrics-api", "--from-namespace", TestHelper.GetVizNamespace()},
+				args: []string{"viz", "stat", "svc", "prometheus", "-n", TestHelper.GetVizNamespace(), "--from", "deploy/linkerd-metrics-api", "--from-namespace", TestHelper.GetVizNamespace()},
 				expectedRows: map[string]string{
-					"linkerd-prometheus": "1/1",
+					"prometheus": "1/1",
 				},
 			},
 		}...,
@@ -163,8 +163,8 @@ func TestCliStatForLinkerdNamespace(t *testing.T) {
 				args: []string{"viz", "stat", "deploy", "-n", TestHelper.GetVizNamespace()},
 				expectedRows: map[string]string{
 					"linkerd-metrics-api": "1/1",
-					"linkerd-grafana":     "1/1",
-					"linkerd-tap":         "1/1",
+					"grafana":             "1/1",
+					"tap":                 "1/1",
 					"linkerd-web":         "1/1",
 					"tap-injector":        "1/1",
 				},
